@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import GlobalStyle from '../components/GlobalStyled';
 
 const MainPage = () => {
   const navigate = useNavigate();

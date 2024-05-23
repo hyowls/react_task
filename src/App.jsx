@@ -1,9 +1,13 @@
 import React from 'react'
 import './App.css'
 import Router from './shared/Router'
+import GlobalStyle from './components/GlobalStyled'
 const App = () => {
   return (
-    <Router />
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
   )
 }
 
