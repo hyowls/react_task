@@ -1,8 +1,9 @@
 import React from 'react'
 import './App.css'
+import Router from './shared/Router'
 const App = () => {
   return (
-    <div>App</div>
+    <Router />
   )
 }
 
