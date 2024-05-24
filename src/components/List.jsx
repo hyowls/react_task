@@ -57,8 +57,8 @@ const List = ({ navigate, items, selectedMonth }) => {
   })
   return (
     <ListLayout>
-      {filteredItems.map((item, index) => (
-        <Item key={index} onClick={()=>{navigate('/detail-page')}}>
+      {filteredItems.map((item) => (
+        <Item key={item.id} onClick={()=>{navigate(`/detail-page/${item.id}`)}}>
           <DateText>{item.date}</DateText>
           <DescFlex >
             <FlexLayout style={{display:'flex', flexDirection:'row'}}>
