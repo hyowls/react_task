@@ -19,11 +19,16 @@ justify-content:center;
 const MainPage = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
-
+  const [selectedMonth, setSelectedMonth] = useState(0);
+  
   useEffect(() => {
     const storedItems = localStorage.getItem('items');
     if (storedItems) {
       setItems(JSON.parse(storedItems));
+    }
+    const loadStorageMonth = localStorage.getItem('selectedMonth')
+    if (loadStorageMonth) {
+      setSelectedMonth(parseInt(loadStorageMonth))
     }
   }, []);
 
@@ -33,11 +38,15 @@ const MainPage = () => {
     localStorage.setItem('items', JSON.stringify(nextItems));
   };
 
+  useEffect(()=>{
+    localStorage.setItem('selectedMonth', selectedMonth.toString())
+  },[selectedMonth])
+
   return (
     <MainLayout>
       <Form addItem={addItem}/>
-      <Month />
-      <List navigate={navigate} items={items} />
+      <Month selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth}/>
+      <List navigate={navigate} items={items} selectedMonth={selectedMonth}/>
     </MainLayout>
   )
 }

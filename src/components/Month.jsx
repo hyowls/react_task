@@ -16,28 +16,28 @@ padding:20px;
 const MonthBtn = styled.button`
 width: 110px;
 height: 70px;
-background-color: ${props => (props.isActive ? '#58A399' : 'white')};
-color: ${props => (props.isActive ? 'white' : 'black')};
+background-color: ${props => (props.selected ? '#58A399' : 'white')};
+color: ${props => (props.selected ? 'white' : 'black')};
 border-radius: 15px;
 border: none;
 margin: 15px;
 cursor: pointer;
 &:hover {
-  background-color: ${props => (props.isActive ? '#46847b' : '#f0f0f0')};
+  background-color: ${props => (props.selected ? '#46847b' : '#f0f0f0')};
 }
 `
-const Month = ({ isActive }) => {
+const Month = ({ selectedMonth, setSelectedMonth }) => {
   const months = [
     1,2,3,4,5,6,7,8,9,10,11,12
   ]
-  const [activeMonth, setActiveMonth] = useState(0);
+  // const [activeMonth, setActiveMonth] = useState(0);
   const ActiveHandler = (index) => {
-    setActiveMonth(index);
+    setSelectedMonth(index);
   }
   return (
     <MonthLayout>
       {months.map((month, index)=>(
-        <MonthBtn key={index} $isActive={isActive} onClick={()=>ActiveHandler(index)}>{month}월</MonthBtn>
+        <MonthBtn key={index} selected={selectedMonth === index} onClick={()=>ActiveHandler(index)}>{month}월</MonthBtn>
       ))}
     </MonthLayout>
   )
