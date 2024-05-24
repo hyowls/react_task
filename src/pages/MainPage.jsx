@@ -5,7 +5,7 @@ import Form from '../components/Form'
 import Month from '../components/Month'
 import List from '../components/List'
 
-const MainLayout = styled.div`
+export const Layout = styled.div`
 width:1000px;
 border-radius:20px;
 background-color:#ACE1AF;
@@ -20,7 +20,7 @@ const MainPage = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
-  
+
   useEffect(() => {
     const storedItems = localStorage.getItem('items');
     if (storedItems) {
@@ -43,11 +43,11 @@ const MainPage = () => {
   },[selectedMonth])
 
   return (
-    <MainLayout>
+    <Layout>
       <Form addItem={addItem}/>
       <Month selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth}/>
       <List navigate={navigate} items={items} selectedMonth={selectedMonth}/>
-    </MainLayout>
+    </Layout>
   )
 }
 
