@@ -25,12 +25,16 @@ border-radius:15px;
 const Date = styled.p`
 margin-bottom:10px;
 `
+const Title = styled.span`
+  font-size:22px;
+`
 const Content = styled.span`
 font-size:22px;
 `
 const Price = styled.span`
 font-size:22px;
-float:right;
+float:right
+
 `
 const List = ({ navigate, items }) => {
   return (
@@ -38,18 +42,11 @@ const List = ({ navigate, items }) => {
       {items.map((item, index) => (
         <Item key={index} onClick={()=>{navigate('/detail-page')}}>
           <Date>{item.date}</Date>
-          <Content>{item.title}</Content>
-          <Content>{item.Content}</Content>
+          <Title >{item.title} - </Title>
+          <Content >{item.content}</Content>
           <Price>{item.price}원</Price>
         </Item>
       ))}
-
-      {/* <Item onClick={()=>{navigate('/detail-page')}}>
-        <Date>날짜</Date>
-        <Content>제목 - </Content>
-        <Content>내용</Content>
-        <Price>10000원</Price>
-      </Item> */}
     </ListLayout>
   )
 }

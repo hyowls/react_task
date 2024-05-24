@@ -26,7 +26,7 @@ cursor: pointer;
   background-color: ${props => (props.isActive ? '#46847b' : '#f0f0f0')};
 }
 `
-const Month = () => {
+const Month = ({ isActive }) => {
   const months = [
     1,2,3,4,5,6,7,8,9,10,11,12
   ]
@@ -37,7 +37,7 @@ const Month = () => {
   return (
     <MonthLayout>
       {months.map((month, index)=>(
-        <MonthBtn key={index} isActive={activeMonth === index} onClick={()=>ActiveHandler(index)}>{month}월</MonthBtn>
+        <MonthBtn key={index} $isActive={isActive} onClick={()=>ActiveHandler(index)}>{month}월</MonthBtn>
       ))}
     </MonthLayout>
   )

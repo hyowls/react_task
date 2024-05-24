@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Form from '../components/Form'
@@ -19,9 +19,20 @@ justify-content:center;
 const MainPage = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const storedItems = localStorage.getItem('items');
+    if (storedItems) {
+      setItems(JSON.parse(storedItems));
+    }
+  }, []);
+
   const addItem = (item) => {
-    setItems([...items, item]);
-  }
+    const nextItems = [...items, item];
+    setItems(nextItems);
+    localStorage.setItem('items', JSON.stringify(nextItems));
+  };
+
   return (
     <MainLayout>
       <Form addItem={addItem}/>
