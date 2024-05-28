@@ -1,60 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useContext, useState, useEffect } from 'react'
+import { ListLayout, Item, DateText, Title, Content, Price, DescFlex, FlexLayout } from './styled/ListStyle';
+import { Context } from '../context/Context';
+import { useNavigate } from 'react-router-dom';
 
-const ListLayout = styled.div`
-width:900px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background-color:#E0FBE2;
-border-radius:15px;
-padding:20px;
-margin-top:30px;
-`
-const Item = styled.div`
-width:800px;
-background-color:white;
-padding:20px;
-border-radius:15px;
-margin:10px 0;
-&:hover{
-  transform:scale(1.02);
-  transition:all 0.3s;
-}
-`
-const DateText = styled.p`
-margin-bottom:10px;
-`
-const Title = styled.span`
-  font-size:22px;
-`
-const Content = styled.p`
-width:550px;
-font-size:22px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-`
-const Price = styled.span`
-font-size:22px;
-float:right
-`
-const DescFlex = styled.div`
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-`
-const FlexLayout = styled.div`
-  display:flex;
-  flex-direction:row;
-`
-const List = ({ navigate, items, selectedMonth }) => {
+const List = () => {
+  const navigate = useNavigate()
+  const { items, selectedMonth} = useContext(Context)
   const filteredItems = items.filter((item)=>{
     const itemDate = new Date(item.date);
     const itemMonth = itemDate.getMonth()
     return itemMonth === selectedMonth;
   })
+
   return (
     <ListLayout>
       {filteredItems.map((item) => (

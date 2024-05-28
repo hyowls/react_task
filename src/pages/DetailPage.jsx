@@ -1,102 +1,53 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { Layout } from './MainPage';
-
-const LoadDate = styled.input`
-  width: 800px;
-  padding: 10px 15px;
-  font-size: 18px;
-  margin: 5px auto;
-  border: none;
-  border-radius: 10px;
-`;
-
-const DateWrap = styled.div`
-  margin: 20px;
-`;
-
-const BtnWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  float: right;
-  margin-right: 30px;
-`;
-
-const hoverColor = ['#4b9ed9', '#cc4242', '#b0b1b5'];
-
-const DetailBtn = styled.button`
-  width: 70px;
-  height: 40px;
-  border: none;
-  background-color: ${props => props.$backgroundColor};
-  border-radius: 10px;
-  margin: 0px 5px;
-  color: white;
-  &:hover {
-    background-color: ${props => props.$hoverColor};
-  }
-`;
+import { Layout } from '../components/styled/MainPageStyle';
+import { LoadDate, DateWrap, BtnWrap , hoverColor, DetailBtn } from '../components/styled/DetailPageStyle';
+import { Context } from '../context/Context';
 
 const DetailPage = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const storageData = localStorage.getItem('items');
-  const storageItems = JSON.parse(storageData);
-  const storageItem = storageItems.find(item => String(item.id) === id);
-  
-  const isEditingRef = useRef(false);
+  const {items, deleteItem, updateItem} = useContext(Context)
+  const navigate = useNavigate()
+  const {id} = useParams()
+  const storageItem = items.find((item) => String(item.id) === String(id))
+
+  const isEditingRef = useRef(false)
   const [editedValues, setEditedValues] = useState({
-    date: storageItem ? storageItem.date : '',
-    title: storageItem ? storageItem.title : '',
-    content: storageItem ? storageItem.content : '',
-    price: storageItem ? storageItem.price : '',
-  });
+    date : storageItem ? storageItem.date : "",
+    title : storageItem ? storageItem.title : "",
+    content :storageItem ? storageItem.content : "",
+    price : storageItem ? storageItem.price : "",
+  })
 
   const handleDelete = () => {
-    const confirmDelete = window.confirm('내용을 삭제 할까요?');
-    if (confirmDelete) {
-      const deleteItems = storageItems.filter(item => String(item.id) !== id);
-      localStorage.setItem('items', JSON.stringify(deleteItems));
-      navigate('/');
+    const confirmDelete = window.confirm('내용을 삭제하겠습니까?')
+    if(confirmDelete){
+      deleteItem(id)
+      navigate('/')
     }
-  };
+  }
 
   const handleEdit = () => {
-    isEditingRef.current = true;
+    isEditingRef.current = !isEditingRef.current
     setEditedValues({
-      date: storageItem.date,
-      title: storageItem.title,
-      content: storageItem.content,
-      price: storageItem.price,
-    });
-  };
-  
+      date : storageItem.date,
+      title : storageItem.title,
+      content : storageItem.content,
+      price : storageItem.price
+    })
+  }
+
   const handleSave = () => {
-    const updatedItems = storageItems.map(item => {
-      if (String(item.id) === id) {
-        return {
-          ...item,
-          date: editedValues.date,
-          title: editedValues.title,
-          content: editedValues.content,
-          price: editedValues.price,
-        };
-      }
-      return item;
-    });
-    localStorage.setItem('items', JSON.stringify(updatedItems));
-    isEditingRef.current = false;
-    setEditedValues({
-      date: editedValues.date,
-      title: editedValues.title,
-      content: editedValues.content,
-      price: editedValues.price,
-    });
-    navigate('/');
-    alert("수정이 완료되었습니다.");
-  };
-  
+    updateItem({
+      id,
+      date : editedValues.date,
+      title : editedValues.title,
+      content : editedValues.content,
+      price : editedValues.price,
+    })
+    isEditingRef.current = false
+    navigate('/')
+    alert("수정이 완료되었습니다")
+  }
 
   return (
     <Layout>
