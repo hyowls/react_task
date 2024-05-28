@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import Form from '../components/Form'
 import Month from '../components/Month'
 import List from '../components/List'
 import { Layout } from '../components/styled/MainPageStyle'
-import { Context } from '../context/Context'
+import { useDispatch, useSelector } from 'react-redux'
 
 const MainPage = () => {
-  const {items, addItem, selectedMonth, setSelectedMonth} = useContext(Context)
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.items.items)
+  const selectedMonth = useSelector(state => state.items.selectedMonth)
 
   return (
       <Layout>
-        <Form addItem={addItem} />
-        <Month selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
+        <Form />
+        <Month />
         <List items={items} selectedMonth={selectedMonth} />
       </Layout>
   )

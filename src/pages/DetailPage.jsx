@@ -1,11 +1,13 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../components/styled/MainPageStyle';
 import { LoadDate, DateWrap, BtnWrap , hoverColor, DetailBtn } from '../components/styled/DetailPageStyle';
-import { Context } from '../context/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteItem, updateItem } from '../redux/modules/ItemSlice';
 
 const DetailPage = () => {
-  const {items, deleteItem, updateItem} = useContext(Context)
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.items.items)
   const navigate = useNavigate()
   const {id} = useParams()
   const storageItem = items.find((item) => String(item.id) === String(id))
@@ -21,7 +23,7 @@ const DetailPage = () => {
   const handleDelete = () => {
     const confirmDelete = window.confirm('내용을 삭제하겠습니까?')
     if(confirmDelete){
-      deleteItem(id)
+      dispatch(deleteItem(id))
       navigate('/')
     }
   }
@@ -37,13 +39,7 @@ const DetailPage = () => {
   }
 
   const handleSave = () => {
-    updateItem({
-      id,
-      date : editedValues.date,
-      title : editedValues.title,
-      content : editedValues.content,
-      price : editedValues.price,
-    })
+    dispatch(updateItem({ id, ...editedValues}))
     isEditingRef.current = false
     navigate('/')
     alert("수정이 완료되었습니다")

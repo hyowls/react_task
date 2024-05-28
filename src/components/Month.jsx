@@ -1,14 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { MonthLayout, MonthBtn } from './styled/MonthStyle'
-import { Context } from '../context/Context'
+import { setSelectedMonth } from '../redux/modules/ItemSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Month = () => {
-  const { selectedMonth, setSelectedMonth } = useContext(Context)
+  const dispatch = useDispatch()
+  const selectedMonth = useSelector(state => state.items.selectedMonth)
   const months = [
     1,2,3,4,5,6,7,8,9,10,11,12
   ]
   const ActiveHandler = (index) => {
-    setSelectedMonth(index);
+    dispatch(setSelectedMonth(index))
   }
   return (
     <MonthLayout>

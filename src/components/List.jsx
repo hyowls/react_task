@@ -1,21 +1,29 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from 'react'
 import { ListLayout, Item, DateText, Title, Content, Price, DescFlex, FlexLayout } from './styled/ListStyle';
-import { Context } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const List = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { items, selectedMonth} = useContext(Context)
+  const items = useSelector(state => state.items.items)
+  const selectedMonth = useSelector(state => state.items.selectedMonth)
+
   const filteredItems = items.filter((item)=>{
     const itemDate = new Date(item.date);
     const itemMonth = itemDate.getMonth()
     return itemMonth === selectedMonth;
   })
+  const handleItemClick = (id) => {
+    navigate(`/detail-page/${id}`)
+  }
 
   return (
     <ListLayout>
       {filteredItems.map((item) => (
-        <Item key={item.id} onClick={()=>{navigate(`/detail-page/${item.id}`)}}>
+        <Item key={item.id} onClick={() => {
+          handleItemClick(item.id)
+        }}>
           <DateText>{item.date}</DateText>
           <DescFlex >
             <FlexLayout style={{display:'flex', flexDirection:'row'}}>

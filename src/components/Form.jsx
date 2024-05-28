@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { FormLayout, Input, SaveBtn } from './styled/FormStyle';
-import { Context } from '../context/Context';
+import { addItem } from '../redux/modules/ItemSlice';
+import { useDispatch } from 'react-redux';
 
 const Form = () => {
-  const {addItem} = useContext(Context)
+  const dispatch = useDispatch()
   const [date, setDate] = useState('');
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
@@ -21,7 +22,7 @@ const Form = () => {
     if(!date.trim() || !title.trim() || !price.trim() || !content.trim()) {
       return alert('모든 항목을 입력해주세요')
     } else {
-      addItem(newItem)
+      dispatch(addItem(newItem))
       setDate('')
       setTitle('')
       setPrice('')
